@@ -1,22 +1,17 @@
-import PropTypes from 'prop-types'
 import Button from './Button'
 import Theme from './Theme'
+import AuthButtons from './Auth'
+import Profile from './Profile'
 
-const Header = ({onAdd, showAdd, changeTheme}) => {
+const Header = ({onAdd, showAdd}) => {
   return (
     <header className='header'>
       <Theme />
+      <AuthButtons />
+      <Profile />
       <Button color={showAdd ? 'red' : 'green'} text={showAdd ? 'Close' : 'Add'} onClick={onAdd}/>
     </header>
   )
-}
-
-Header.defaultProps = {
-  title: 'Quantum Quest',
-}
-
-Header.proptype = {
-  title: PropTypes.string.isRequired,
 }
 
 export default Header

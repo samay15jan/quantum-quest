@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { UserProvider } from './components/UserContext';
 import './App.css';
 import Header from './components/Header'
 import Tasks from './components/Tasks';
@@ -45,11 +46,13 @@ function App() {
   }
 
   return (
+    <UserProvider>
     <div className="Container">
       <Header onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask}/>
       {showAddTask && <AddTask onAdd={addTask}/>}
       {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={reminderTask}/> : 'No current tasks set'}
     </div>
+    </UserProvider>
   );
 }
 
