@@ -1,19 +1,23 @@
+import { useUserContext } from './UserContext';
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase'; 
+import AuthButtons from './Auth';
 
 const Logout = () => {
-    const handleLogout = () => {
-        signOut(auth)
-          .then(() => {
-            console.log('User Successfully logged out');
-          })
-          .catch((error) => {
-            console.error('Logout error:', error);
-          });
+  const { setUser } = useUserContext();
+
+  const handleLogout = () => {
+      signOut(auth)
+        .then(() => {
+            setUser("");        
+        })
+        .catch((error) => {
+        console.error('Logout error:', error);
+      });
     };
 
     return (
-        <button class="px-2 py-2 text-sm text-red-600 font-semibold rounded-md border border-purple-200 hover:text-white hover:bg-red-600 hover:border-transparent" onClick={handleLogout}>Logout</button>
+        <button className="px-2 py-2 text-black text-xs hover:text-red-600" onClick={handleLogout}><i className="fa-solid fa-right-from-bracket"></i></button>
     );
 }
 

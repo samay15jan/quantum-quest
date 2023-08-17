@@ -1,7 +1,8 @@
 import { useUserContext } from './UserContext';
-import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
+import { signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
 import { auth, database} from './firebase'; 
-
+import GoogleShort from '../Google-logo.jpg'
+ 
 const AuthButtons = () => {
   const { setUser } = useUserContext();
 
@@ -24,10 +25,9 @@ const AuthButtons = () => {
         console.error('Google login error:', error);
       });
   };
-
   return (
     <div>
-      <button className='bg-amber-300 p-1 py-2 rounded-md text-slate-800' onClick={handleGoogleLogin}>Login with Google</button>
+      <button className='flex items-center bg-white text-black hover p-1 pr-2 rounded-full w-30 hover:bg-gray-200 drop-shadow-lg' onClick={handleGoogleLogin}><img className='w-8 mr-2' src={GoogleShort} alt="Google"/>Sign in with Google</button>
     </div>
   );
 };

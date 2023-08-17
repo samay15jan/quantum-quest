@@ -16,7 +16,7 @@ const Logo = () => {
     const finalDisplayLogo = getLogo(finalTheme);
     return (
         <div>
-            <img className='w-56 m-2 lg:w-72 lg:m-5' src={bfinalDisplayLogo} alt="Logo" />
+            <img className='w-56 m-2 lg:w-72 lg:m-5' src={finalDisplayLogo} alt="Logo" />
         </div>
 )}
 

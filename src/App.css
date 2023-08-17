@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import './styles.css';
+
 
 * {
   box-sizing: border-box;
@@ -8,16 +13,10 @@
 
 body {
   font-family: 'Poppins', sans-serif;
+  @apply h-screen w-screen bg-gradient-to-r from-[#11192c] from-10% via-[#142142] via-50% to-[#0c1324] to-100%;
 }
-
-.container {
-  max-width: 500px;
-  margin: 30px auto;
-  overflow: auto;
-  min-height: 300px;
-  border: 1px solid steelblue;
-  padding: 30px;
-  border-radius: 5px;
+.Container {
+  color: black;
 }
 
 .header {
