@@ -1,9 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-@import './styles.css';
-
 
 * {
   box-sizing: border-box;
@@ -13,10 +8,14 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  @apply h-screen w-screen bg-gradient-to-r from-[#11192c] from-10% via-[#142142] via-50% to-[#0c1324] to-100%;
 }
-.Container {
-  color: black;
+
+.theme-dark {
+  @apply h-screen w-screen bg-gradient-to-r from-[#0f1728] via-[#192b56] bg-[#0a0f1d];
+}
+
+.theme-light {
+  @apply h-screen w-screen bg-gradient-to-br from-blue-200 via-violet-300 bg-cyan-100;
 }
 
 .header {
@@ -26,13 +25,30 @@ body {
   margin-bottom: 20px;
 }
 
+.Google {
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin-top: 20px;
+  margin-right: 75px; 
+}
 .btn {
   display: inline-block;
   background: #000;
   color: #fff;
   border: none;
   padding: 10px 20px;
+  margin: 5px; display: inline-block;
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
   margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: inherit;
   border-radius: 5px;
   cursor: pointer;
   text-decoration: none;

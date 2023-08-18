@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { UserProvider } from './components/UserContext';
+import { useUserContext } from './components/UserContext';
 import './App.css';
 import Header from './components/Header'
 import Tasks from './components/Tasks';
@@ -45,20 +45,21 @@ function App() {
     setTasks(tasks.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task))
   }
 
+    // Theme
+    const { finalTheme } = useUserContext();
+    const getTheme = (value) => {
+      const finalValue = value.finalTheme;
+      return finalValue
+    };
+    const finalDisplayTheme = getTheme(finalTheme);
+    console.log(finalDisplayTheme)
   return (
-    <UserProvider>
-    <div className="Container">
+    <div className={finalDisplayTheme === 'Light' ? 'theme-light' : 'theme-dark'}>
       <Header onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask}/>
       {showAddTask && <AddTask onAdd={addTask}/>}
       {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={reminderTask}/> : 'No current tasks set'}
     </div>
-    </UserProvider>
   );
 }
 
 export default App;
-
-
-
-
-

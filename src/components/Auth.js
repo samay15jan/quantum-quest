@@ -25,9 +25,10 @@ const AuthButtons = () => {
         console.error('Google login error:', error);
       });
   };
+
   return (
     <div>
-      <button className='flex items-center bg-white text-black hover p-1 pr-2 rounded-full w-30 hover:bg-gray-200 drop-shadow-lg' onClick={handleGoogleLogin}><img className='w-8 mr-2' src={GoogleShort} alt="Google"/>Sign in with Google</button>
+      <button className='Google flex items-center bg-white text-black hover p-1 pr-2 rounded-full w-30 hover:bg-gray-200 drop-shadow-lg' onClick={handleGoogleLogin}><img className='w-8 mr-2' src={GoogleShort} alt="Google"/>Sign in with Google</button>
     </div>
   );
 };
