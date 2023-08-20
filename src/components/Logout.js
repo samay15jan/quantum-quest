@@ -1,15 +1,13 @@
-import { useUserContext } from './UserContext';
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase'; 
 import AuthButtons from './Auth';
 
 const Logout = () => {
-  const { setUser } = useUserContext();
 
   const handleLogout = () => {
       signOut(auth)
         .then(() => {
-            setUser("");        
+          localStorage.removeItem('userId');
         })
         .catch((error) => {
         console.error('Logout error:', error);

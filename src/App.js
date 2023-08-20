@@ -52,7 +52,6 @@ function App() {
       return finalValue
     };
     const finalDisplayTheme = getTheme(finalTheme);
-    console.log(finalDisplayTheme)
   return (
     <div className={finalDisplayTheme === 'Light' ? 'theme-light' : 'theme-dark'}>
       <Header onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask}/>

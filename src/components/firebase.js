@@ -9,6 +9,7 @@ const firebaseConfig = {
   storageBucket: "quantum-quest.appspot.com",
   messagingSenderId: "50231955337",
   appId: "1:50231955337:web:97abc860723a6381d19b58",
+  databaseURL: "https://quantum-quest-default-rtdb.firebaseio.com/",
 };
 
 const app = initializeApp(firebaseConfig);
