@@ -1,9 +1,10 @@
 import { useState } from "react"
-import { useUserContext } from './components/UserContext';
+import { useUserContext } from './components/UserContext'
 import './App.css';
 import Header from './components/Header'
-import Tasks from './components/Tasks';
-import AddTask from "./components/AddTask";
+import Tasks from './components/Tasks'
+import AddTask from './components/AddTask'
+import Main from './components/Main'
 
 function App() {
   const [showAddTask, setShowAddTask] = useState (false)
@@ -54,7 +55,8 @@ function App() {
     const finalDisplayTheme = getTheme(finalTheme);
   return (
     <div className={finalDisplayTheme === 'Light' ? 'theme-light' : 'theme-dark'}>
-      <Header onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask}/>
+      <Header />
+      <Main onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask}/>
       {showAddTask && <AddTask onAdd={addTask}/>}
       {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={reminderTask}/> : 'No current tasks set'}
     </div>

@@ -32,10 +32,10 @@ const Profile = () => {
         <div className="text-center space-y-2 sm:text-left">
           <div className="space-y-0">
             <p className="text-sm text-black font-semibold">
-              {userEmail}<Logout />
+              {userName}<Logout />
             </p>
             <p className="text-xs text-slate-500 font-normal">
-              {userName}
+              {userEmail}
             </p>
           </div>
         </div>

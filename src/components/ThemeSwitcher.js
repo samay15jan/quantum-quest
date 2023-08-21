@@ -16,7 +16,9 @@ const ThemeSwitcher = () => {
     const ICON = icon(finalTheme);
     return (
         <UserProvider>
-                <button className='rounded-full p-2 mr-5' onClick={changeTheme}><i className={ICON === 'Light' ? 'fa-regular fa-moon fa-xl ' : 'fa-regular fa-sun fa-2xl text-white'}></i> </button>
+                <div className='absolute top-6 right-0 w-32' >
+                    <button onClick={changeTheme}><i className={ICON === 'Light' ? 'fa-regular fa-moon fa-2xl bg-white rounded-full px-2 py-5' : 'fa-regular fa-sun fa-2xl bg-white px-1 py-5 rounded-full'}></i> </button>
+                </div>
         </UserProvider>
     )
 }
