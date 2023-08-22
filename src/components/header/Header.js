@@ -1,4 +1,4 @@
-import Logo from './Logo'
+import Logo from './AppLogo'
 import Profile from './Profile'
 import ThemeSwitcher from './ThemeSwitcher.js'
 import Github from './Github'

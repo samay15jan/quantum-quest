@@ -3,6 +3,7 @@ import React from 'react'
 const ChatGPT = () => {
     async function response() {
         const apiUrl = 'https://api.openai.com/v1/chat/completions';
+        const apiKey = "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"
       
         const input = document.getElementById('area').value;
       

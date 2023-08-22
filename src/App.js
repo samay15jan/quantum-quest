@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { useUserContext } from './components/UserContext'
 import './App.css';
-import Header from './components/Header'
-import Tasks from './components/Tasks'
-import AddTask from './components/AddTask'
-import Main from './components/Main'
+import Header from './components/header/Header'
+import Tasks from './components/main/Tasks'
+import AddTask from './components/main/AddTask'
+import Main from './components/main/PopupMenuButton'
 
 function App() {
   const [showAddTask, setShowAddTask] = useState (false)
@@ -59,9 +59,10 @@ function App() {
   return (
     <div className={finalDisplayTheme === 'Light' ? 'theme-light' : 'theme-dark'}>
       <Header />
-      <Main onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask}/>
       {showAddTask && <AddTask onAdd={addTask}/>}
       {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={reminderTask}/> : 'No current tasks set'}
+      <Main onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask}/>
+
     </div>
   );
 }

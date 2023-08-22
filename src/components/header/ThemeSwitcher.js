@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useUserContext, UserProvider } from './UserContext'
+import { useUserContext, UserProvider } from '../UserContext'
 
 const ThemeSwitcher = () => {
     const { finalTheme, setTheme } = useUserContext();

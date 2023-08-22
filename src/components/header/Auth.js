@@ -1,7 +1,7 @@
 import { signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
-import { auth } from './firebase'; 
+import { auth } from '../firebase'; 
 import { getDatabase, ref, set } from "firebase/database";
-import googleLogo from '../google-logo.jpg'
+import googleLogo from '../../images/google-logo.jpg'
  
 const AuthButtons = () => {
   const handleGoogleLogin = () => {

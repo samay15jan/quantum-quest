@@ -1,6 +1,6 @@
-import { useUserContext } from './UserContext'
-import DarkLogo from '../logo-dark.svg'
-import LightLogo from '../logo-light.svg'
+import { useUserContext } from '../UserContext'
+import DarkLogo from '../../images/logo-dark.svg'
+import LightLogo from '../../images/logo-light.svg'
 
 const Logo = () => {
     const { finalTheme } = useUserContext();
