@@ -11,21 +11,24 @@ function App() {
   const [tasks, setTasks] = useState([
     {
         id: 1,
-        text: 'Doctors Appointment',
-        day: 'Feb 5th at 2:30pm',
+        text: 'Meet Karan',
+        note: 'at Amanujan Hospital,Jamsherpur',
         reminder: true,
+        imageUrl: 'https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png',
     },
     {
         id: 2,
-        text: 'Meeting at school ',
-        day: 'sat 6th at 1:30pm',
+        text: 'Alina Is Waiting',
+        note: 'At Car Parking',
         reminder: true,
+        imageUrl: 'https://media.sproutsocial.com/uploads/2022/05/sprout-social-tiktok-logo-lockups-header-image.svg',
     },
        {
         id: 3,
-        text: 'Food Shopping',
-        day: 'Feb 5th at 4:30pm',
+        text: 'Met Joseph On Yacht',
+        note: 'Get Sweets',
         reminder: false,
+        imageUrl: '',
     }
   ])
 
