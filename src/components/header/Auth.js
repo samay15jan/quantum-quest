@@ -11,17 +11,29 @@ const AuthButtons = () => {
         const user = result.user
         const userId = user.uid
         localStorage.setItem('userId', userId)
+        const generatedKey = generateKey();
         const db = getDatabase();
-        set(ref(db, 'users/' + userId), {
+        set(ref(db, 'quantum-quest/users/' + userId), {
           name: user.displayName,
           email: user.email, 
-          profile : user.photoURL
+          profile : user.photoURL,
+          encrypt_key: generatedKey
         });
       })
       .catch((error) => {
         console.error('Google login error:', error)
       });
   };
+
+  function generateKey() {
+    const keyLength = 32;
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let key = '';
+    for (let i = 0; i < keyLength; i++) {
+      key += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return key;
+  }
 
   return (
     <div>

@@ -3,7 +3,7 @@ import { getDatabase, ref, child, get } from "firebase/database";
 import AuthButtons from './Auth'
 import Logout from './Logout'
 
-var userEmail, userName, userProfile;
+var userEmail, userName, userProfile, encryptKey;
 const Profile = () => {
   const userId = localStorage.getItem('userId')
   
@@ -12,12 +12,13 @@ const Profile = () => {
   }
 
   const dbRef = ref(getDatabase());
-  get(child(dbRef, `users/${userId}`)).then((snapshot) => {
+  get(child(dbRef, `quantum-quest/users/${userId}`)).then((snapshot) => {
     if (snapshot.exists()) {
       const userData = snapshot.val();
       userEmail = userData.email;
       userName = userData.name;
-      userProfile = userData.profile;    
+      userProfile = userData.profile;
+      encryptKey = userData.encrypt_key;    
     } 
     else {
       console.log("No data available");
@@ -25,6 +26,7 @@ const Profile = () => {
   }).catch((error) => {
     console.error(error);
   });
+  localStorage.setItem('key', encryptKey)
   return (
     <div>
       <div className="Google py-8 pr-4 max-w-sm mx-auto bg-white rounded-full shadow-lg space-y-2 sm:py-1 sm:flex sm:items-center sm:space-y-0 sm:space-x-4">
