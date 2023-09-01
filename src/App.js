@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useUserContext } from './components/UserContext';
-import { getDatabase, ref, set, push, onValue } from "firebase/database";
+import { ref, set, push, get, remove } from "firebase/database";
+import { database } from './components/firebase'
 import CryptoJS from 'crypto-js';
 import './App.css';
 import Header from './components/header/Header';
@@ -13,80 +14,84 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const userId = localStorage.getItem('userId');
 
-  useEffect(() => {
-    getData();
-  }, []);
-
   // Add Task
-  const addTask = (task) => {
-    // Local Sync
-
-    //Firebase Sync
-    const encryptedText = encryptData(task.text, key);
-    const encryptedNote = encryptData(task.note, key);
-    const encryptImageUrl = encryptData(task.imageUrl, key);
-    const db = getDatabase();
-    const tasksRef = ref(db, `quantum-quest/tasks/${userId}/menu1`);
-    const newTaskRef = push(tasksRef);
-    const taskId = newTaskRef.key;
-    const newTask = { taskId, ...task };
-    setTasks([...tasks, newTask])
-    const data = {
-      taskId: taskId,
-      taskText: encryptedText,
-      taskNote: encryptedNote,
-      taskReminder: task.reminder,
-      taskImageUrl: encryptImageUrl
-    };
-    set(newTaskRef, data);
-  };
-
-  const getData = () => {
-    if (!userId) {
-      return;
-    }
-    const db = getDatabase();
-    const menu = 'menu1';
-    const tasksRef = ref(db, `quantum-quest/tasks/${userId}/${menu}`);
-    const decryptedTasks = [];
-    onValue(tasksRef, snapshot => {
-      snapshot.forEach(childSnapshot => {
-        const task = childSnapshot.val();
-        const decryptedText = decryptData(task.taskText, key);
-        const decryptedNote = decryptData(task.taskNote, key);
-        const decryptedImageUrl = decryptData(task.taskImageUrl, key);
-        const taskData = {
-          id: task.taskId,
-          taskText: decryptedText,
-          taskNote: decryptedNote,
-          taskImageUrl: decryptedImageUrl,
-          reminder: task.taskReminder
-        };
-        decryptedTasks.push(taskData);
+    const addTask = (task) => {
+      // Encrypting data
+      const encryptedText = encryptData(task.text, key);
+      const encryptedNote = encryptData(task.note, key);
+      const encryptImageUrl = encryptData(task.imageUrl, key);
+      // Firebase Realtime Database
+      const menu = 'menu1' // TEST
+      const taskRef = ref(database, `quantum-quest/tasks/${userId}/${menu}`);
+      const newTaskRef = push(taskRef);
+      const taskId = newTaskRef.key; 
+      const databaseData = {
+        taskId: taskId,
+        taskText: encryptedText,
+        taskNote: encryptedNote,
+        taskImageUrl: encryptImageUrl,
+        taskReminder: task.reminder,
+      };
+      set (newTaskRef, databaseData)
+        .then(() => {
+          console.log("New task added successfully"); // TODO
+        }) 
+        .catch(error => {
+          console.error("Error adding new post:", error); // TODO
         });
-        setTasks(tasks => [...tasks, ...decryptedTasks]);
-      });
     };
 
+  // Get Data only once 
+    useEffect(() => { getData();}, [] )
 
-
-
-    // Function to encrypt data using AES
-    const key = localStorage.getItem('key')
-    function encryptData(data, key) {
-      const encryptedData = CryptoJS.AES.encrypt(data, key).toString();
-      return encryptedData;
-    }
-    // Function to decrypt data using AES
-    function decryptData(data, key) {
-        const decryptedData = CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
-        return decryptedData;
-    }
-
+  // Get Data
+    const getData = () => {
+      // User Check
+      if (!userId) {
+        return;
+      }
+      // Getting from firebase
+      const menu = 'menu1';
+      const taskRef = ref(database, `quantum-quest/tasks/${userId}/${menu}`);
+      get(taskRef)
+        .then(snapshot => {
+          const getTasks = [];
+          snapshot.forEach(taskSnapshot => {
+            const task = taskSnapshot.val();
+            // Decrypting Data
+            const decryptedText = decryptData(task.taskText, key);
+            const decryptedNote = decryptData(task.taskNote, key);
+            const decryptedImageUrl = decryptData(task.taskImageUrl, key);
+            const taskData = {
+              id: task.taskId,
+              taskText: decryptedText,
+              taskNote: decryptedNote,
+              reminder: task.taskReminder,
+              ImageUrl: decryptedImageUrl
+            };
+            getTasks.push(taskData);
+          });
+          // Output Tasks
+          if (getTasks.length > 0) {
+          const finalTasks = getTasks.map(tasks => ({
+            id: tasks.id,
+            text: tasks.taskText,
+            note: tasks.taskNote,
+            imageUrl: tasks.ImageUrl,
+            reminder: tasks.reminder
+          }));
+          setTasks([...tasks, ...finalTasks]);
+        }})
+        .catch(error => {
+          console.error("Error fetching user data:", error); // TODO
+        })};
 
   // Delete Task
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id))
+    const menu = 'menu1' // TEST
+    const taskRef = ref(database, `quantum-quest/tasks/${userId}/${menu}/${id}`);
+    remove(taskRef)
   }
 
   // Reminder Task
@@ -101,16 +106,28 @@ function App() {
     return finalValue
   };
   const finalDisplayTheme = getTheme(finalTheme);
-  
+
+  // Function to encrypt data using AES
+    const key = localStorage.getItem('key')
+    function encryptData(data, key) {
+      const encryptedData = CryptoJS.AES.encrypt(data, key).toString();
+      return encryptedData;
+    }
+
+  // Function to decrypt data using AES
+    function decryptData(data, key) {
+        const decryptedData = CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
+        return decryptedData;
+    }
+
   return (
     <div className={finalDisplayTheme === 'Light' ? 'theme-light' : 'theme-dark'}>
       <Header />
       {showAddTask && <AddTask onAdd={addTask} />}
-
       {tasks.length > 0 ? (
         <Tasks tasks={tasks} onDelete={deleteTask} onToggle={reminderTask} />
       ) : (
-        <div className="text-center"> No current tasks</div>
+        <div className="text-center">No current tasks</div>
       )}
       <Main onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} />
     </div>
