@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useUserContext } from './components/UserContext';
-import { ref, set, push, get, remove } from "firebase/database";
+import { ref, set, push, get, remove, update } from "firebase/database";
 import { database } from './components/firebase'
 import CryptoJS from 'crypto-js';
 import './App.css';
@@ -94,10 +94,34 @@ function App() {
     remove(taskRef)
   }
 
-  // Reminder Task
-  const reminderTask = (id) => {
-    setTasks(tasks.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task))
-  }
+// Reminder Task
+const reminderTask = (id) => {
+  const updatedNewTasks = tasks.map((task) =>
+    task.id === id ? { ...task, reminder: !task.reminder } : task
+  );
+  setTasks(updatedNewTasks);
+  const updatedTasks = tasks.reduce((changes, task) => {
+    if (task.id === id) {
+      const encryptedText = encryptData(task.text, key);
+      const encryptedNote = encryptData(task.note, key);
+      const encryptImageUrl = encryptData(task.imageUrl, key);
+      changes[task.id] = { 
+        ...task,
+        text: encryptedText,
+        note: encryptedNote,
+        imageUrl: encryptImageUrl,
+        reminder: !task.reminder 
+      };
+    } else {
+      changes[task.id] = task;
+    }
+    return changes;
+  }, {});
+  const menu = 'menu1'; // TEST
+  const taskRef = ref(database, `quantum-quest/tasks/${userId}/${menu}/`);
+  update(taskRef, updatedTasks)
+};
+
 
   // Theme
   const { finalTheme } = useUserContext();

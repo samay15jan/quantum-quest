@@ -11,14 +11,13 @@ const Task = ({task, onDelete, onToggle}) => {
           <dir className="text-2xl">
             <AiOutlineDelete />
           </dir>
-        <button className="" onClick={() => onToggle(task.id)}>
         </button>
+        <button style={{color:'red', cursor:'pointer'}} onClick={() => onToggle(task.id)}>
           <div className="text-2xl">
             {task.reminder ? <BsBell /> : <BsBellSlash />}
           </div>
         </button>
       </h3>
-
       <p>{task.note}</p>
 
       <div className="w-64 ">
