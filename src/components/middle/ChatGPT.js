@@ -1,57 +1,59 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import { ref, onValue } from "firebase/database";
+import { database } from '../firebase'
+import CryptoJS from 'crypto-js';
 
 const ChatGPT = () => {
-    async function response() {
-        const apiUrl = 'https://api.openai.com/v1/chat/completions';
-        const apiKey = "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"
-      
-        const input = document.getElementById('area').value;
-      
-        const requestBody = {
-          model: 'gpt-3.5-turbo',
-          messages: [{ role: 'system', content: 'You are just a task summerizer. First greet with my username which would be provided, then you need to provide a idea or thought related to some task which would be provided. Please write all these under 30 words. And do this all in a fun way' }, { role: 'user', content: input }],
-          temperature: 0.5,
-          max_tokens: 100,
-          top_p: 1,
-          frequency_penalty: 0.0,
-          presence_penalty: 0.6,
-        };
-      
-        const response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`,
-          },
-          body: JSON.stringify(requestBody),
-        });
-      
-        const data = await response.json();
-        const message = data.choices[0].message.content;
+  async function response() {
+    const apiUrl = 'https://api.openai.com/v1/chat/completions';
+    const apiKey = "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"
+    const userId = localStorage.getItem('userId');
+    var input
+    // Get Data only once 
+    // Get Data
+    const getData = () => {
+      // User Check
+      if (!userId) {
+        return;
+      }
+      // Getting from firebase
+      const menu = 'menu1';
+      const taskRef = ref(database, `quantum-quest/tasks/${userId}/${menu}`);
+      onValue(taskRef, (snapshot) => {
+          const getTasks = [];
+          snapshot.forEach((taskSnapshot) => {
+            const task = taskSnapshot.val();
+            // Decrypting Data
+            const decryptedText = decryptData(task.taskText, key);
+            const decryptedNote = decryptData(task.taskNote, key);
+            const taskData = {
+              taskText: decryptedText,
+              taskNote: decryptedNote,
+            };
+            getTasks.push(taskData);
+          });
+          // Output Tasks
+          if (getTasks.length > 0) {
+            const finalTasks = {
+              text: getTasks[0].taskText,
+              note: getTasks[0].taskNote,
+            };
+          input ='Task:' + finalTasks.text + '. Id:' + finalTasks.taskNote
+          }
+        })
+    };
+    console.log(input)
+    getData()
+  }
+response()
 
-        var i = 0;
-        var txt = "Elena: " + message;
-        var speed = 25;
-        function typeWriter() {
-          if (i < txt.length) {
-            const output = document.getElementById("AI-response");
-            let x = document.getElementById("theme");
-            if (x.className === 'light-theme'){
-              output.className = "animate-3 bg-white text-black rounded-xl p-2 mt-4 lg:ml-20 lg:ml-64 mx-10 w-4/5 lg:w-2/3 textarea drop-shadow-xl h-2/5";    
-              output.innerHTML += txt.charAt(i);
-              i++;
-              setTimeout(typeWriter, speed);
-            }
-            else {
-              output.className = "animate-3 bg-slate-800 text-white rounded-xl p-2 mt-4 lg:ml-20 lg:ml-64 mx-10 w-4/5 lg:w-2/3 textarea drop-shadow-xl h-2/5";    
-              output.innerHTML += txt.charAt(i);
-              i++;
-              setTimeout(typeWriter, speed);
-            }}
-          } 
-        typeWriter()
-    }
-        
+  // Function to decrypt data using AES
+  const key = localStorage.getItem('key')
+  function decryptData(data, key) {
+    const decryptedData = CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
+    return decryptedData;
+  }
+
   return (
     <div>
 
@@ -59,4 +61,4 @@ const ChatGPT = () => {
   )
 }
 
-export default ChatGPT
+export default ChatGPT;
