@@ -153,17 +153,53 @@ function App() {
     const decryptedData = CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
     return decryptedData;
   }
-
+  
   return (
     <div className={finalDisplayTheme === 'Light' ? 'theme-light' : 'theme-dark'}>
       <Header />
       {showAddTask && <AddTask onAdd={addTask} />}
-      {tasks.length > 0 ? (
-        <Tasks tasks={tasks} onDelete={deleteTask} onToggle={reminderTask} />
-      ) : (
-        <div className="text-center text-xl">No current tasks</div>
-      )}
-      <Main onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask}/>
+
+      <div className="flex container ml-8">     
+      
+      <div className="bg-white w-96 h-full mb-10 mx-10 p-5 rounded-xl">
+        <label className="text-xl text-center">To Do</label>
+        {tasks
+          .filter((task) => task.taskLocation === 'todo')
+          .map((task) => (
+          <Tasks key={task.id} tasks={[task]} onDelete={deleteTask} onToggle={reminderTask} />
+          ))}
+          {tasks.filter((task) => task.taskLocation === 'todo').length === 0 && (
+          <div className="text-center text-xl">All Set!</div>
+        )}
+        <Main onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} />
+      </div>
+
+      <div className="bg-white w-96 h-full mb-10 mx-5 p-5 rounded-xl">
+        <label className="text-xl text-center">In Progress</label>
+        {tasks
+          .filter((task) => task.taskLocation === 'progress')
+          .map((task) => (
+          <Tasks key={task.id} tasks={[task]} onDelete={deleteTask} onToggle={reminderTask} />
+        ))}
+        {tasks.filter((task) => task.taskLocation === 'progress').length === 0 && (
+        <div className="text-center text-xl">All Set!</div>
+        )}
+        <Main onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} />
+      </div>
+
+      <div className="bg-white w-96 h-full mb-10 mx-10 p-5 rounded-xl">
+        <label className="text-xl text-center">Done</label>
+        {tasks
+          .filter((task) => task.taskLocation === 'done')
+          .map((task) => (
+          <Tasks key={task.id} tasks={[task]} onDelete={deleteTask} onToggle={reminderTask} />
+          ))}
+          {tasks.filter((task) => task.taskLocation === 'done').length === 0 && (
+          <div className="text-center text-xl">All Set!</div>
+        )}
+        <Main onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} />
+      </div>
+      </div>
     </div>
   );
 }
