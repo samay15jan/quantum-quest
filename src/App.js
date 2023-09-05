@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useUserContext } from './components/UserContext';
-import { ref, set, push,onValue, remove, update } from "firebase/database";
+import { ref, set, push, onValue, remove, update } from "firebase/database";
 import { database } from './components/firebase'
 import CryptoJS from 'crypto-js';
 import './App.css';
@@ -20,8 +20,18 @@ function App() {
     const encryptedText = encryptData(task.text, key);
     const encryptedNote = encryptData(task.note, key);
     const encryptImageUrl = encryptData(task.imageUrl, key);
+    // Getting menu label
+    const getMenu = () => {
+      if (task.todo) {
+        return "todo";
+      } else if (task.inprogress) {
+        return "progress";
+      } else if (task.done) {
+        return "done";
+      }
+    }
     // Firebase Realtime Database
-    const menu = 'menu1' // TEST
+    const menu = getMenu()
     const taskRef = ref(database, `quantum-quest/tasks/${userId}/${menu}`);
     const newTaskRef = push(taskRef);
     const taskId = newTaskRef.key;
@@ -51,7 +61,7 @@ function App() {
       return;
     }
     // Getting from firebase
-    const menu = 'menu1';
+    const menu = 'todo';
     const taskRef = ref(database, `quantum-quest/tasks/${userId}/${menu}`);
     onValue(taskRef, (snapshot) => {
         const getTasks = [];
@@ -150,7 +160,7 @@ function App() {
       ) : (
         <div className="text-center">No current tasks</div>
       )}
-      <Main onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} />
+      <Main onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask}/>
     </div>
   );
 }
