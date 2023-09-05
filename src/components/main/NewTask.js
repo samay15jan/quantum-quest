@@ -9,6 +9,7 @@ const AddTask = ({ onAdd }) => {
   const [inprogress, setProgress] = useState(false);
   const [done, setDone] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
+  const [taskLocation, setTaskLocation] = useState("");
 
   const handleTodoClick = () => setTodo(!todo);
   const handleProgressClick = () => setProgress(!inprogress);
@@ -22,12 +23,13 @@ const AddTask = ({ onAdd }) => {
       return;
     }
 
-    onAdd({ text, note, reminder, todo, inprogress, done, imageUrl });
+    onAdd({ text, note, reminder, todo, inprogress, done, imageUrl, taskLocation });
 
     setText("");
     setNote("");
     setImageUrl("");
     setReminder(false);
+    setTaskLocation("");
   };
 
   return (

@@ -7,12 +7,12 @@ const Task = ({task, onDelete, onToggle}) => {
     <div className='task'>
       <h3>
         {task.text}
-        <button style={{color:'red', cursor:'pointer'}} onClick={() => onDelete(task.id)}>
+        <button style={{color:'red', cursor:'pointer'}} onClick={() => onDelete(task.id, task.taskLocation)}>
           <dir className="text-2xl">
             <AiOutlineDelete />
           </dir>
         </button>
-        <button style={{color:'red', cursor:'pointer'}} onClick={() => onToggle(task.id)}>
+        <button style={{color:'red', cursor:'pointer'}} onClick={() => onToggle(task.id, task.taskLocation)}>
           <div className="text-2xl">
             {task.reminder ? <BsBell /> : <BsBellSlash />}
           </div>

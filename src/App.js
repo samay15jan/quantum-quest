@@ -41,6 +41,7 @@ function App() {
       taskNote: encryptedNote,
       taskImageUrl: encryptImageUrl,
       taskReminder: task.reminder,
+      taskLocation: menu
     };
     set(newTaskRef, databaseData)
       .then(() => {
@@ -75,6 +76,7 @@ function App() {
             id: task.taskId,
             taskText: decryptedText,
             taskNote: decryptedNote,
+            taskLocation: task.taskLocation,
             reminder: task.taskReminder,
             ImageUrl: decryptedImageUrl
           };
@@ -87,7 +89,8 @@ function App() {
             text: tasks.taskText,
             note: tasks.taskNote,
             imageUrl: tasks.ImageUrl,
-            reminder: tasks.reminder
+            reminder: tasks.reminder,
+            taskLocation: tasks.taskLocation
           }));
           setTasks([...tasks, ...finalTasks]);
         }
@@ -95,15 +98,15 @@ function App() {
   };
 
   // Delete Task
-  const deleteTask = (id) => {
+  const deleteTask = (id, taskLocation) => {
     setTasks(tasks.filter((task) => task.id !== id))
-    const menu = 'menu1' // TEST
+    const menu = taskLocation
     const taskRef = ref(database, `quantum-quest/tasks/${userId}/${menu}/${id}`);
     remove(taskRef)
   }
 
   // Reminder Task
-  const reminderTask = (id) => {
+  const reminderTask = (id, taskLocation) => {
     const updatedNewTasks = tasks.map((task) =>
       task.id === id ? { ...task, reminder: !task.reminder } : task
     );
@@ -125,8 +128,8 @@ function App() {
       }
       return changes;
     }, {});
-    const menu = 'menu1'; // TEST
-    const taskRef = ref(database, `quantum-quest/tasks/${userId}/${menu}/`);
+    const menu = taskLocation
+    const taskRef = ref(database, `quantum-quest/tasks/${userId}/${menu}/`)
     update(taskRef, updatedTasks)
   };
 
@@ -158,7 +161,7 @@ function App() {
       {tasks.length > 0 ? (
         <Tasks tasks={tasks} onDelete={deleteTask} onToggle={reminderTask} />
       ) : (
-        <div className="text-center">No current tasks</div>
+        <div className="text-center text-xl">No current tasks</div>
       )}
       <Main onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask}/>
     </div>
