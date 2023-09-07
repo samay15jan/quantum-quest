@@ -62,9 +62,10 @@ function App() {
       return;
     }
     // Getting from firebase
-    const menu = 'todo';
-    const taskRef = ref(database, `quantum-quest/tasks/${userId}/${menu}`);
-    onValue(taskRef, (snapshot) => {
+    const menus = ['todo', 'progress', 'done'];
+    const fetchDataForMenu = (menu) => {
+      const taskRef = ref(database, `quantum-quest/tasks/${userId}/${menu}`);
+      onValue(taskRef, (snapshot) => {
         const getTasks = [];
         snapshot.forEach((taskSnapshot) => {
           const task = taskSnapshot.val();
@@ -91,11 +92,12 @@ function App() {
             imageUrl: tasks.ImageUrl,
             reminder: tasks.reminder,
             taskLocation: tasks.taskLocation
-          }));
+          }))
           setTasks([...tasks, ...finalTasks]);
-        }
-      })
-  };
+        }})}
+    menus.forEach((menu) => {
+      fetchDataForMenu(menu);
+  })}
 
   // Delete Task
   const deleteTask = (id, taskLocation) => {
