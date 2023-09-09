@@ -8,6 +8,7 @@ import Header from './components/header/Header';
 import Tasks from './components/main/Tasks';
 import AddTask from './components/main/NewTask';
 import Main from './components/main/PopupMenuButton';
+import Summerizer from "./components/middle/Summerizer";
 
 function App() {
   const [showAddTask, setShowAddTask] = useState(false);
@@ -84,7 +85,10 @@ function App() {
             note: decryptedNote,
             taskLocation: task.taskLocation,
             reminder: task.taskReminder,
-            imageUrl: decryptedImageUrl
+            imageUrl: decryptedImageUrl,
+            encryptedText : task.taskText,
+            encryptedNote : task.taskNote,
+            encryptedImageUrl : task.taskImageUrl
           };
           getTasks.push(taskData);
         });
@@ -99,7 +103,7 @@ function App() {
       fetchDataForMenu(menu);
     });
   };
-
+console.log(tasks)
   const deleteTask = (id, taskLocation) => {
     const menu = taskLocation;
     const updatedTasks = tasks[menu].filter((task) => task.id !== id);
@@ -116,20 +120,18 @@ function App() {
     const updatedNewTasks = tasks[menu].map((task) =>
       task.id === id ? { ...task, reminder: !task.reminder } : task
     );
-    setTasks((prevTasks) => ({
-      ...prevTasks,
+    setTasks((tasks) => ({
+      ...tasks,
       [menu]: updatedNewTasks,
     }));
     const updatedTasks = tasks[menu].reduce((changes, task) => {
       if (task.id === id) {
-        const encryptedText = encryptData(task.taskText, key);
-        const encryptedNote = encryptData(task.taskNote, key);
-        const encryptImageUrl = encryptData(task.imageUrl, key);
         changes[task.id] = {
-          ...task,
-          taskText: encryptedText,
-          taskNote: encryptedNote,
-          imageUrl: encryptImageUrl,
+          taskId: task.id,
+          taskLocation: task.taskLocation,
+          taskText: task.encryptedText,
+          taskNote: task.encryptedNote,
+          taskImageUrl: task.encryptedImageUrl,
           taskReminder: !task.reminder,
         };
       } else {
@@ -141,7 +143,6 @@ function App() {
     update(taskRef, updatedTasks);
   };
   
-
   // Theme
   const { finalTheme } = useUserContext();
   const getTheme = (value) => {
@@ -167,10 +168,13 @@ function App() {
       <Header />
       {showAddTask && <AddTask onAdd={addTask} />}
 
-      <div className="flex container ml-8">     
-      
-      <div className="bg-white w-96 h-full mb-10 mx-10 p-5 rounded-xl">
-        <label className="text-xl text-center">To Do</label>
+      <Summerizer tasks={tasks}/>
+
+      <div className="flex container ml-8">       
+      <div className="bg-white w-96 h-full mb-10 mx-10 p-5 rounded-xl bg-opacity-50">
+        <div className="flex">
+        <label className="text-xl text-center mr-3 font-bold">To Do </label>
+        </div>
         {Array.isArray(tasks.todo) && tasks.todo.length > 0 ? (
           tasks.todo.map((task) => (
               <Tasks sectionTasks={[task]} key={task.id} task={[task]} onDelete={deleteTask} onToggle={reminderTask} />
@@ -181,8 +185,10 @@ function App() {
         <Main onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} />
       </div>
 
-      <div className="bg-white w-96 h-full mb-10 mx-5 p-5 rounded-xl">
-        <label className="text-xl text-center">In Progress</label>
+      <div className="bg-white w-96 h-full mb-10 mx-5 p-5 rounded-xl bg-opacity-50">
+        <div className="flex">
+        <label className="text-xl text-center mr-5 font-bold">In Progress</label>
+        </div>
         {Array.isArray(tasks.progress) && tasks.progress.length > 0 ? (
           tasks.progress.map((task) => (
               <Tasks sectionTasks={[task]} key={task.id} tasks={[task]} onDelete={deleteTask} onToggle={reminderTask} />
@@ -193,8 +199,10 @@ function App() {
         <Main onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} />
       </div>
 
-      <div className="bg-white w-96 h-full mb-10 mx-10 p-5 rounded-xl">
-        <label className="text-xl text-center">Done</label>
+      <div className="bg-white w-96 h-full mb-10 mx-10 p-5 rounded-xl bg-opacity-50">
+        <div className="flex">
+        <label className="text-xl text-center mr-5 font-bold">Done</label>
+        </div>
         {Array.isArray(tasks.done) && tasks.done.length > 0 ? (
           tasks.done.map((task) => (
               <Tasks sectionTasks={[task]} key={task.id} tasks={[task]} onDelete={deleteTask} onToggle={reminderTask} />

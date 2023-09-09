@@ -5,24 +5,26 @@ import { BsBell, BsBellSlash } from "react-icons/bs"
 const Task = ({task, onDelete, onToggle}) => {
   return (
     <div className='task'>
-      <h3>
+      <div className="flex">
         {task.text}
-        <button style={{color:'red', cursor:'pointer'}} onClick={() => onDelete(task.id, task.taskLocation)}>
-          <dir className="text-2xl">
+      </div>
+      <p className="text-sm font-light">{task.note}</p>
+
+      <div className='mx-1 p-1 flex justify-between'>
+        <button style={{color:'rgb(224, 125, 142)', cursor:'pointer'}} onClick={() => onDelete(task.id, task.taskLocation)}>
+          <div className="text-xl">
             <AiOutlineDelete />
-          </dir>
+          </div>
         </button>
-        <button style={{color:'red', cursor:'pointer'}} onClick={() => onToggle(task.id, task.taskLocation)}>
-          <div className="text-2xl">
+        <div className="w-56 pt-1">
+        {task.imageUrl && <img className="rounded-xl" src={task.imageUrl}/>}
+      </div>
+        <button style={{color:'rgb(224, 125, 142)', cursor:'pointer'}} onClick={() => onToggle(task.id, task.taskLocation)}>
+          <div className="text-xl">
             {task.reminder ? <BsBell /> : <BsBellSlash />}
           </div>
         </button>
-      </h3>
-      <p>{task.note}</p>
-
-      <div className="w-64 ">
-        {task.imageUrl && <img src={task.imageUrl}/>}
-      </div>
+        </div>
     </div>
   )
 }
