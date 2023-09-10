@@ -37,7 +37,12 @@ const AuthButtons = () => {
 
   return (
     <div>
-      <button className='Google flex items-center bg-white text-black hover p-1 pr-2 rounded-full w-30 hover:bg-gray-200 drop-shadow-lg' onClick={handleGoogleLogin}><img className='w-8 mr-2' src={googleLogo} alt="Google"/>Sign in with Google</button>
+      <div className='lg:block hidden absolute right-24 top-5 '>
+        <button className='bg-opacity-70 flex items-center bg-white text-black p-3 pr-2 rounded-full w-30 hover:bg-gray-200 drop-shadow-lg' onClick={handleGoogleLogin}><img className='w-8 mr-2' src={googleLogo} alt="Google"/>Sign in with Google</button>
+      </div>
+      <div className='lg:hidden block absolute right-20 top-4'>
+      <button className='bg-opacity-70 bg-white rounded-full hover:bg-gray-200 drop-shadow-lg p-1' onClick={handleGoogleLogin}><img className='w-8' src={googleLogo} alt="Google"/></button>
+      </div>
     </div>
   );
 };

@@ -34,7 +34,7 @@ const AddTask = ({ onAdd }) => {
 
   return (
     <div
-      className="bg-slate-200 rounded-xl border p-5 absolute left-20 justify w-96 shadow-2xl"
+      className="bg-slate-200 rounded-xl border p-5 absolute bottom-50 left-1/3 ml-8  w-96 shadow-2xl"
     >
       <div className="text-xl">Add New Task</div>
       <div className="my-6">

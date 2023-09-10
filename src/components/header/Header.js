@@ -1,15 +1,13 @@
 import Logo from './AppLogo'
 import Profile from './Profile'
 import ThemeSwitcher from './ThemeSwitcher.js'
-import Github from './Github'
 
 const Header = () => {
   return (
-    <header className='header'>
+    <header className='mb-100'>
       <Logo />
-      <Profile className="Google"/>
+      <Profile/>
       <ThemeSwitcher />
-      <Github />
     </header>
   )
 }

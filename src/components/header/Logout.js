@@ -1,6 +1,5 @@
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase'; 
-import AuthButtons from './Auth';
 
 const Logout = () => {
 
@@ -8,6 +7,8 @@ const Logout = () => {
       signOut(auth)
         .then(() => {
           localStorage.removeItem('userId');
+          localStorage.removeItem('key');
+          localStorage.removeItem('username');
         })
         .catch((error) => {
         console.error('Logout error:', error);

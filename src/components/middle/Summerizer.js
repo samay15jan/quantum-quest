@@ -6,10 +6,11 @@ const ChatGPT = ({ tasks }) => {
 
   useEffect(() => {
     function fetchData() {
+        const username = localStorage.getItem('username')
         const todoTasks = tasks.todo.length;
         const progressTasks = tasks.progress.length;
         const doneTasks = tasks.done.length;
-        const description = `You currently have ${todoTasks} todo tasks, ${progressTasks} tasks in progress and ${doneTasks} completed tasks. Keep grinding !!`;
+        const description = `Hi! ${username}. You currently have ${todoTasks} todo tasks, ${progressTasks} tasks in progress and ${doneTasks} completed tasks. Keep grinding!!`;
         setChatResponse(description);
     }
     fetchData();
@@ -19,7 +20,7 @@ const ChatGPT = ({ tasks }) => {
     <div style={{width:700}} className=" bg-opacity-50 bg-white rounded-xl text-slate-700 text-medium ml-80 mb-5 p-2">
       <div className="flex">
         <div>
-          <img className="w-14 rounded-full" src={AILOGO} />
+          <img className="w-14 rounded-full" src={AILOGO} alt='logo' />
         </div>
         <div className=" ml-4">{chatResponse}</div>
         <div className="animate-spin"> </div> 

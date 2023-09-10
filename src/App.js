@@ -56,8 +56,8 @@ function App() {
         console.error("Error adding new post:", error); // TODO
       });
   };
-
   // Get Data only once 
+  // eslint-disable-next-line
   useEffect(() => { getData(); }, [userId])
 
   const getData = () => {
@@ -103,7 +103,7 @@ function App() {
       fetchDataForMenu(menu);
     });
   };
-console.log(tasks)
+
   const deleteTask = (id, taskLocation) => {
     const menu = taskLocation;
     const updatedTasks = tasks[menu].filter((task) => task.id !== id);
@@ -163,6 +163,7 @@ console.log(tasks)
     const decryptedData = CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
     return decryptedData;
   }
+  
   return (
     <div className={finalDisplayTheme === 'Light' ? 'theme-light' : 'theme-dark'}>
       <Header />
