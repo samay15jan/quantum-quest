@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SelectTask from "./SelectTask";
+import Main from "./PopupMenuButton";
 
 const AddTask = ({ onAdd }) => {
   const [text, setText] = useState("");
@@ -14,7 +15,6 @@ const AddTask = ({ onAdd }) => {
   const handleTodoClick = () => setTodo(!todo);
   const handleProgressClick = () => setProgress(!inprogress);
   const handleDoneClick = () => setDone(!done);
-
 
   const onSaveClick = () => {
     if (!text) {
@@ -33,9 +33,8 @@ const AddTask = ({ onAdd }) => {
   };
 
   return (
-    <div
-      className="bg-slate-200 rounded-xl border p-5 absolute bottom-50 left-1/3 ml-8  w-96 shadow-2xl"
-    >
+    <div className="flex justify-center">
+    <div className="bg-slate-200 bottom-0 mb-8 rounded-xl border p-5 absolute w-auto shadow-2xl">
       <div className="text-xl">Add New Task</div>
       <div className="my-6">
         <input
@@ -67,7 +66,7 @@ const AddTask = ({ onAdd }) => {
       </div>
       <div className="flex ml-2 mt-4">
         <SelectTask className='py-2 m-2' text="Todo" CaughtClick={handleTodoClick} />
-        <SelectTask className='py-2 m-2' text="In-Progress" CaughtClick={handleProgressClick} />
+        <SelectTask className='py-2 m-2' text="In Progress" CaughtClick={handleProgressClick} />
         <SelectTask className='py-2 m-2' text="Done" CaughtClick={handleDoneClick} />
       </div>
       <div className="my-6">
@@ -86,6 +85,7 @@ const AddTask = ({ onAdd }) => {
       >
         Save Task
       </button>
+    </div>
     </div>
   );
 };

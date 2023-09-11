@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUserContext, UserProvider } from '../UserContext'
 
 const ThemeSwitcher = () => {
     const { finalTheme, setTheme } = useUserContext();
-    const [theme, setThemeState] = useState("Light")
+    const [ theme, setThemeState ] = useState("Light")
+    
+    useEffect(()=>{changeTheme();}, [])
     const changeTheme = () => {
         const newTheme = theme === "Dark" ? "Light" : "Dark";
         setThemeState(newTheme);
