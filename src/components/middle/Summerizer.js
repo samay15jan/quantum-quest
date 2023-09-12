@@ -44,8 +44,8 @@ const ChatGPT = ({ tasks }) => {
   }, [showComponent, tasks])
 
   return (
-    <div className="flex justify-center">
-    <div className="mt-24 hidden lg:block drop-shadow-xl bg-opacity-50 bg-white rounded-xl text-black text-medium w-1/2 mb-5 p-2">
+    <div className="flex  justify-center">
+    <div className="mt-24 hidden lg:block  drop-shadow-xl bg-opacity-50 bg-white rounded-xl text-black text-medium w-1/2 mb-5 p-2">
       <div className="flex">
         <div>
           <img className="w-14 rounded-full pt-1" src={AILOGO} alt='logo' />
