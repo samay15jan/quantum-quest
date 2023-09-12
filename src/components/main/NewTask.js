@@ -1,6 +1,6 @@
-import { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SelectTask from "./SelectTask";
-import Main from "./PopupMenuButton";
+import VanillaTilt from "vanilla-tilt";
 
 const AddTask = ({ onAdd }) => {
   const [text, setText] = useState("");
@@ -32,9 +32,20 @@ const AddTask = ({ onAdd }) => {
     setTaskLocation("");
   };
 
+  const tiltRefBG = useRef(null);
+  useEffect(() => {
+    if(tiltRefBG.current) {
+      VanillaTilt.init(tiltRefBG.current,{
+      max: 5,
+      speed: 200,
+      glare: true,
+      'max-glare': 0.2,
+    });
+  }},[]);
+
   return (
     <div className="flex justify-center">
-    <div className="bg-slate-200 bottom-0 mb-8 rounded-xl border p-5 absolute w-auto shadow-2xl">
+    <div className="bg-slate-200 bottom-0 mb-8 rounded-xl border p-5 absolute w-auto shadow-2xl" ref={tiltRefBG}>
       <div className="text-xl">Add New Task</div>
       <div className="my-6">
         <input
