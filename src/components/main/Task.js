@@ -28,8 +28,8 @@ const Task = ({task, onDelete, onToggle}) => {
             <AiOutlineDelete />
           </div>
         </button>
-        <div className="w-56 pt-1">
-        {task.imageUrl && <img className="rounded-xl " ref={tiltRef} src={task.imageUrl}/>}
+        <div className="w-56 pt-1" ref={tiltRef}>
+        {task.imageUrl && <img className="rounded-xl " src={task.imageUrl}/>}
       </div>
         <button style={{color:'rgb(224, 125, 142)', cursor:'pointer'}} onClick={() => onToggle(task.id, task.taskLocation)}>
           <div className="text-xl">
