@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import SelectTask from "./SelectTask";
 import VanillaTilt from "vanilla-tilt";
 
-const AddTask = ({ onAdd }) => {
+const AddTask = ({ onAdd, onClose }) => {
   const [text, setText] = useState("");
   const [note, setNote] = useState("");
   const [reminder, setReminder] = useState(false);
@@ -44,8 +44,8 @@ const AddTask = ({ onAdd }) => {
   }},[]);
 
   return (
-    <div className="flex justify-center">
-    <div className="bg-slate-200 bottom-0 mb-8 rounded-xl border p-5 absolute w-auto shadow-2xl" ref={tiltRefBG}>
+    <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-full flex justify-center items-center z-50 bg-opacity-50 bg-black">
+      <div className="bg-slate-200 mb-8 rounded-xl border p-5 absolute w-auto shadow-2xl" ref={tiltRefBG}>
       <div className="text-xl">Add New Task</div>
       <div className="my-6">
         <input
@@ -95,6 +95,9 @@ const AddTask = ({ onAdd }) => {
         className="text-slate-900 bg-slate-300 p-2 rounded-md hover:bg-green-600 hover:text-white backdrop-blur-md "
       >
         Save Task
+      </button>
+      <button className=" bg-slate-300 text-slate-900 ml-3 p-2 rounded-md hover:text-white hover:bg-red-600 backdrop-blur-md" onClick={onClose}>
+        Close
       </button>
     </div>
     </div>
