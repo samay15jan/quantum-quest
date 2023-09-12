@@ -163,11 +163,15 @@ function App() {
     const decryptedData = CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
     return decryptedData;
   }
+
+  const closeAddTask = () => {
+    setShowAddTask(false);
+  };
   
   return (
     <div className={finalDisplayTheme === 'Light' ? 'theme-light overflow-x-hidden' : 'theme-dark overflow-x-hidden'}>
       <Header />
-      {showAddTask && <AddTask onAdd={addTask} />}
+      {showAddTask && <AddTask onAdd={addTask} onClose={closeAddTask}/>}
 
       <Summerizer tasks={tasks}/>
 
